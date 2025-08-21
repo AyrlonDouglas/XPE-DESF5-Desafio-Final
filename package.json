@@ -1,0 +1,23 @@
+{
+	"name": "xpe-desf5-desafio-final",
+	"version": "1.0.0",
+	"description": "Atividade avaliativa do módulo 5 da pós-graduação em Arquitetura de software e soluções",
+	"main": "index.js",
+	"engines": {
+		"node": "22.18.0",
+		"npm": "10.9.3"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/AyrlonDouglas/XPE-DESF5-Desafio-Final.git"
+	},
+	"author": "",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/AyrlonDouglas/XPE-DESF5-Desafio-Final/issues"
+	},
+	"homepage": "https://github.com/AyrlonDouglas/XPE-DESF5-Desafio-Final#readme"
+}
