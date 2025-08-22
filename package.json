@@ -2,13 +2,15 @@
 	"name": "xpe-desf5-desafio-final",
 	"version": "1.0.0",
 	"description": "Atividade avaliativa do módulo 5 da pós-graduação em Arquitetura de software e soluções",
-	"main": "index.js",
+	"main": "src/main.js",
 	"engines": {
 		"node": "22.18.0",
 		"npm": "10.9.3"
 	},
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"dev": "tsx watch --env-file .env src/main.ts",
+		"type": "tsc --noEmit --watch",
+		"type-check": "tsc --noEmit"
 	},
 	"repository": {
 		"type": "git",
@@ -19,5 +21,18 @@
 	"bugs": {
 		"url": "https://github.com/AyrlonDouglas/XPE-DESF5-Desafio-Final/issues"
 	},
-	"homepage": "https://github.com/AyrlonDouglas/XPE-DESF5-Desafio-Final#readme"
+	"homepage": "https://github.com/AyrlonDouglas/XPE-DESF5-Desafio-Final#readme",
+	"dependencies": {
+		"drizzle-orm": "^0.44.4",
+		"express": "^5.1.0",
+		"pg": "^8.16.3"
+	},
+	"devDependencies": {
+		"@types/express": "^5.0.3",
+		"@types/node": "^24.3.0",
+		"@types/pg": "^8.15.5",
+		"drizzle-kit": "^0.31.4",
+		"tsx": "^4.20.4",
+		"typescript": "^5.9.2"
+	}
 }
