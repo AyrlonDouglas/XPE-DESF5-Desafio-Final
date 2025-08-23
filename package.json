@@ -14,9 +14,9 @@
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
 		"build": "rm -rf dist && tsc && tsc-alias",
-		"compose:up": "docker compose up -d --build --remove-orphans && docker compose logs -f api",
-		"compose:stop": "docker compose stop",
-		"compose:down-v": "docker compose down -v"
+		"up": "docker compose up -d --build --remove-orphans && docker compose logs -f api",
+		"stop": "docker compose stop",
+		"down-v": "docker compose down -v"
 	},
 	"repository": {
 		"type": "git",
