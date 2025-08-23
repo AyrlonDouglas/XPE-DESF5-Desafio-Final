@@ -1,5 +1,5 @@
-import { ProdutosRepository } from "./produto.repository"
 import { Produto } from "./produto.model"
+import { ProdutosRepository } from "./produto.repository"
 
 export default class ProdutosService {
 	constructor(private readonly produtosRepository: ProdutosRepository) {}
