@@ -6,7 +6,7 @@ Este projeto é o desafio final do Bootcamp: Arquitetura de software da EXP, e i
 
 ## 🏗️ Arquitetura do Software
 
-Para ver o diagrama C4 Model deste projeto, importe o arquivo [diagrama.grawio](diagrama.drawio) para o site [draw.io](https://draw.io), ou copie o conteúdo do arquivo e cole no draw.io.
+Para ver o diagrama C4 Model deste projeto, importe o arquivo [diagrama.drawio](diagrama.drawio) para o site [draw.io](https://draw.io), ou copie o conteúdo do arquivo e cole no draw.io.
 
 ### Padrão Arquitetural MVC
 
@@ -48,7 +48,8 @@ XPE-DESF5-Desafio-Final/
 │           ├── pedidos.model.ts
 │           └── pedidos.routes.ts
 ├── drizzle/                    # Migrações do banco de dados
-├── compose.yaml                # Configuração Docker
+├── compose.yaml                # Configuração Docker Compose
+├── Dockerfile.dev              # Dockerfile para desenvolvimento
 └── package.json                # Dependências do projeto
 ```
 
@@ -198,11 +199,57 @@ GET /produtos?nome=Notebook
 
 ### Pré-requisitos
 
-- Node.js 22.18.0+
 - Docker e Docker Compose
+- Git
+
+### 🐳 Método Recomendado: Docker Compose
+
+#### **Início Rápido**
+
+1. **Clone o repositório**
+
+```bash
+git clone https://github.com/AyrlonDouglas/XPE-DESF5-Desafio-Final.git
+cd XPE-DESF5-Desafio-Final
+```
+
+2. **Suba a aplicação e banco de dados**
+
+```bash
+docker compose up --build
+```
+
+3. **Acesse a API**
+
+A API estará disponível em `http://localhost:3000`
+
+#### **Comandos Úteis**
+
+```bash
+# Iniciar em background
+docker compose up -d
+
+# Ver logs
+docker compose logs -f api
+
+# Parar aplicação
+docker compose down
+
+# Rebuild sem cache
+docker compose build --no-cache
+
+# Executar migrações manualmente
+docker compose exec api npm run db:migrate
+```
+
+### 💻 Método Alternativo: Desenvolvimento Local
+
+#### **Pré-requisitos Adicionais**
+
+- Node.js 22.18.0+
 - npm 10.9.3+
 
-### Instalação e Execução
+#### **Instalação**
 
 1. **Clone o repositório**
 
@@ -217,10 +264,10 @@ cd XPE-DESF5-Desafio-Final
 npm install
 ```
 
-3. **Inicie o banco de dados**
+3. **Inicie apenas o banco de dados**
 
 ```bash
-docker-compose up -d
+docker compose up -d db
 ```
 
 4. **Execute as migrações**
@@ -239,11 +286,23 @@ A API estará disponível em `http://localhost:3000`
 
 ## 📝 Scripts Disponíveis
 
+### Scripts NPM
+
 - `npm run dev`: Inicia o servidor em modo desenvolvimento
 - `npm run build`: Compila o projeto TypeScript
 - `npm run type-check`: Verifica tipos TypeScript
 - `npm run db:generate`: Gera novas migrações
 - `npm run db:migrate`: Executa migrações do banco
+
+### Comandos Docker Compose
+
+- `docker compose up`: Inicia todos os serviços
+- `docker compose up -d`: Inicia todos os serviços em background
+- `docker compose down`: Para e remove todos os serviços
+- `docker compose logs -f api`: Mostra logs da aplicação
+- `docker compose logs -f db`: Mostra logs do banco
+- `docker compose exec api npm run db:migrate`: Executa migrações
+- `docker compose restart api`: Reinicia apenas a aplicação
 
 ## 🏆 Diferenciais Implementados
 
@@ -254,6 +313,8 @@ A API estará disponível em `http://localhost:3000`
 5. **✅ Docker**: Containerização para facilitar deploy
 6. **✅ Migrações**: Controle de versão do banco de dados
 7. **✅ Injeção de Dependência**: Arquitetura desacoplada e testável
+8. **✅ Hot-reload**: Desenvolvimento com reload automático
+9. **✅ Health Checks**: Monitoramento automático dos serviços
 
 ## 📊 Modelo de Dados
 
@@ -282,3 +343,4 @@ Este projeto atende aos requisitos do desafio, implementando:
 - ✅ Documentação arquitetural com diagramas C4
 - ✅ Código bem estruturado e organizado
 - ✅ Separação clara de responsabilidades
+- ✅ Containerização completa com Docker Compose
