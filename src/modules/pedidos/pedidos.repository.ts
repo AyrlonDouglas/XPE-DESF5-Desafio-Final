@@ -7,7 +7,6 @@ import { count, eq } from "drizzle-orm"
 export class PedidosRepository {
 	async getPedidos(): Promise<Pedido[]> {
 		const pedidosFromDb = await db.select().from(pedidosTable)
-		console.log(pedidosFromDb)
 		return pedidosFromDb.map((pedido) => this.mapPedidoFromDbToModel(pedido))
 	}
 	async getPedidosCount(): Promise<number> {
