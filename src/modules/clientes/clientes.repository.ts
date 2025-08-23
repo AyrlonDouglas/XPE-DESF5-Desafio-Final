@@ -1,20 +1,25 @@
 import { Cliente } from "./clientes.model"
-import { db } from "../../db"
-import { clientesTable } from "../../db/schema"
-import { eq } from "drizzle-orm"
+import db from "@db/client"
+import { clientesTable } from "@db/schema"
+import { count, eq, ilike } from "drizzle-orm"
 
 export class ClientesRepository {
-	async getClientes(): Promise<Cliente[]> {
-		const clientesFromDb = await db.select().from(clientesTable)
+	async getClientes(filters: { nome?: string }): Promise<Cliente[]> {
+		const query = db.select().from(clientesTable)
+		if (filters.nome) {
+			query.where(ilike(clientesTable.nome, `%${filters.nome}%`))
+		}
+		const clientesFromDb = await query
 		return clientesFromDb.map((cliente) =>
-			Cliente.create({
-				id: cliente.id.toString(),
-				nome: cliente.nome,
-				email: cliente.email,
-				createdAt: cliente.createdAt,
-				updatedAt: cliente.updatedAt,
-			})
+			this.mapClienteFromDbToModel(cliente)
 		)
+	}
+
+	async getClientesCount(): Promise<number> {
+		const clientesCount = await db
+			.select({ count: count() })
+			.from(clientesTable)
+		return clientesCount[0].count ?? 0
 	}
 
 	async getClienteById(id: string): Promise<Cliente | null> {
@@ -23,15 +28,7 @@ export class ClientesRepository {
 			.from(clientesTable)
 			.where(eq(clientesTable.id, parseInt(id)))
 
-		return cliente
-			? Cliente.create({
-					id: cliente.id.toString(),
-					nome: cliente.nome,
-					email: cliente.email,
-					createdAt: cliente.createdAt,
-					updatedAt: cliente.updatedAt,
-			  })
-			: null
+		return cliente ? this.mapClienteFromDbToModel(cliente) : null
 	}
 
 	async createCliente(cliente: Cliente.Props): Promise<Cliente> {
@@ -40,13 +37,7 @@ export class ClientesRepository {
 			.values(cliente)
 			.returning()
 		if (!newCliente) throw new Error("Failed to create cliente")
-		return Cliente.create({
-			id: newCliente.id.toString(),
-			nome: newCliente.nome,
-			email: newCliente.email,
-			createdAt: newCliente.createdAt,
-			updatedAt: newCliente.updatedAt,
-		})
+		return this.mapClienteFromDbToModel(newCliente)
 	}
 
 	async updateCliente(id: string, cliente: Cliente.Props): Promise<Cliente> {
@@ -57,11 +48,23 @@ export class ClientesRepository {
 			.returning()
 
 		if (!updatedCliente) throw new Error("Failed to update cliente")
-		return Cliente.create({ ...updatedCliente, id })
+		return this.mapClienteFromDbToModel(updatedCliente)
 	}
 
 	async deleteCliente(id: string): Promise<null> {
 		await db.delete(clientesTable).where(eq(clientesTable.id, parseInt(id)))
 		return null
+	}
+
+	private mapClienteFromDbToModel(
+		cliente: typeof clientesTable.$inferSelect
+	): Cliente {
+		return Cliente.create({
+			id: cliente.id.toString(),
+			nome: cliente.nome,
+			email: cliente.email,
+			createdAt: cliente.createdAt,
+			updatedAt: cliente.updatedAt,
+		})
 	}
 }

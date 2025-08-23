@@ -3,8 +3,8 @@ import { Cliente } from "./clientes.model"
 
 export default class ClientesService {
 	constructor(private readonly clientesRepository: ClientesRepository) {}
-	async getClientes(): Promise<Cliente[]> {
-		return this.clientesRepository.getClientes()
+	async getClientes(filters: { nome?: string }): Promise<Cliente[]> {
+		return this.clientesRepository.getClientes(filters)
 	}
 
 	async getClienteById(id: string): Promise<Cliente | null> {
@@ -24,5 +24,9 @@ export default class ClientesService {
 
 	async deleteCliente(id: string): Promise<null> {
 		return this.clientesRepository.deleteCliente(id)
+	}
+
+	async getClientesCount(): Promise<number> {
+		return this.clientesRepository.getClientesCount()
 	}
 }

@@ -1,6 +1,6 @@
 import express from "express"
 import routes from "./routes"
-import "./db/index"
+import "./db/client"
 
 const app = express()
 

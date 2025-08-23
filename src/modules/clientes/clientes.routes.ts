@@ -13,6 +13,10 @@ clientesRoutes
 	.post(clientesController.createCliente.bind(clientesController))
 
 clientesRoutes
+	.route("/clientes/count")
+	.get(clientesController.getClientesCount.bind(clientesController))
+
+clientesRoutes
 	.route("/clientes/:id")
 	.get(clientesController.getClienteById.bind(clientesController))
 	.patch(clientesController.updateCliente.bind(clientesController))

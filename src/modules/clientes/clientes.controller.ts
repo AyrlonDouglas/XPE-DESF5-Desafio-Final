@@ -5,7 +5,10 @@ export class ClientesController {
 	constructor(private readonly clientesService: ClientesService) {}
 
 	async getClientes(req: Request, res: Response) {
-		const clientes = await this.clientesService.getClientes()
+		const { nome }: { nome?: string } = req.query ?? {}
+		const clientes = await this.clientesService.getClientes({
+			nome,
+		})
 		return res.json(clientes.map((cliente) => cliente.props))
 	}
 
@@ -38,5 +41,10 @@ export class ClientesController {
 		const { id } = req.params ?? {}
 		const cliente = await this.clientesService.deleteCliente(id!)
 		return res.json(cliente)
+	}
+
+	async getClientesCount(req: Request, res: Response) {
+		const count = await this.clientesService.getClientesCount()
+		return res.json(count)
 	}
 }
