@@ -6,7 +6,7 @@ Este projeto é o desafio final do Bootcamp: Arquitetura de software da EXP, e i
 
 ## 🏗️ Arquitetura do Software
 
-Para ver o diagrama C4 Model deste projeto, import o arquivo diagrama.grawio para o site
+Para ver o diagrama C4 Model deste projeto, importe o arquivo [diagrama.grawio](diagrama.drawio) para o site [draw.io](https://draw.io), ou copie o conteúdo do arquivo e cole no draw.io.
 
 ### Padrão Arquitetural MVC
 
@@ -273,7 +273,7 @@ A API estará disponível em `http://localhost:3000`
 
 ## 🎯 Conclusão
 
-Este projeto atende completamente aos requisitos do desafio, implementando:
+Este projeto atende aos requisitos do desafio, implementando:
 
 - ✅ API RESTful com arquitetura MVC
 - ✅ Operações CRUD completas
@@ -282,5 +282,3 @@ Este projeto atende completamente aos requisitos do desafio, implementando:
 - ✅ Documentação arquitetural com diagramas C4
 - ✅ Código bem estruturado e organizado
 - ✅ Separação clara de responsabilidades
-
-A solução está pronta para ser utilizada por parceiros da empresa, fornecendo uma API robusta e escalável para gerenciamento de dados de vendas online.
