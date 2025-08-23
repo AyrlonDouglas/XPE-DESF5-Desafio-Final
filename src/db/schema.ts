@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm"
 import { integer, pgTable, text, timestamp } from "drizzle-orm/pg-core"
 
 const baseTable = {
@@ -22,9 +23,21 @@ export const produtosTable = pgTable("produtos", {
 
 export const pedidosTable = pgTable("pedidos", {
 	...baseTable,
-	clienteId: integer().references(() => clientesTable.id),
+	clienteId: integer()
+		.references(() => clientesTable.id)
+		.notNull(),
 	valor: integer().notNull(),
+})
+
+export const pedidosProdutosTable = pgTable("pedidos_produtos", {
+	pedidoId: integer()
+		.references(() => pedidosTable.id, { onDelete: "cascade" })
+		.notNull(),
 	produtoId: integer()
 		.references(() => produtosTable.id)
 		.notNull(),
+	createdAt: timestamp().defaultNow(),
+	updatedAt: timestamp()
+		.defaultNow()
+		.$onUpdate(() => new Date()),
 })

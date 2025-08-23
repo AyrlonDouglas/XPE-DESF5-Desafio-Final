@@ -31,19 +31,23 @@ export class ClientesRepository {
 		return cliente ? this.mapClienteFromDbToModel(cliente) : null
 	}
 
-	async createCliente(cliente: Cliente.Props): Promise<Cliente> {
+	async createCliente(cliente: Cliente): Promise<Cliente> {
+		delete cliente.props.id
+
 		const [newCliente] = await db
 			.insert(clientesTable)
-			.values(cliente)
+			.values(cliente.props)
 			.returning()
 		if (!newCliente) throw new Error("Failed to create cliente")
 		return this.mapClienteFromDbToModel(newCliente)
 	}
 
-	async updateCliente(id: string, cliente: Cliente.Props): Promise<Cliente> {
+	async updateCliente(id: string, cliente: Cliente): Promise<Cliente> {
+		delete cliente.props.id
+
 		const [updatedCliente] = await db
 			.update(clientesTable)
-			.set(cliente)
+			.set(cliente.props)
 			.where(eq(clientesTable.id, parseInt(id)))
 			.returning()
 
@@ -54,6 +58,15 @@ export class ClientesRepository {
 	async deleteCliente(id: string): Promise<null> {
 		await db.delete(clientesTable).where(eq(clientesTable.id, parseInt(id)))
 		return null
+	}
+
+	async getClienteByEmail(email: string): Promise<Cliente | null> {
+		const [cliente] = await db
+			.select()
+			.from(clientesTable)
+			.where(eq(clientesTable.email, email))
+
+		return cliente ? this.mapClienteFromDbToModel(cliente) : null
 	}
 
 	private mapClienteFromDbToModel(

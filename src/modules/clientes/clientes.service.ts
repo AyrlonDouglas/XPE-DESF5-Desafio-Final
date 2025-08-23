@@ -8,18 +8,46 @@ export default class ClientesService {
 	}
 
 	async getClienteById(id: string): Promise<Cliente | null> {
-		if (!id) throw new TypeError("Id is required")
+		if (!id) throw new Error("Id is required")
 		return this.clientesRepository.getClienteById(id)
 	}
 
 	async createCliente(cliente: Cliente.Props): Promise<Cliente> {
 		if (!cliente.nome || !cliente.email)
-			throw new TypeError("Nome and email are required")
-		return this.clientesRepository.createCliente(cliente)
+			throw new Error("Nome and email are required")
+
+		const alreadyExists = await this.getClienteByEmail(cliente.email)
+
+		if (!!alreadyExists) {
+			throw new Error("E-mail já registrado")
+		}
+
+		const novoCliente = Cliente.create({
+			email: cliente.email,
+			nome: cliente.nome,
+		})
+
+		return this.clientesRepository.createCliente(novoCliente)
+	}
+
+	async getClienteByEmail(email: string): Promise<Cliente | null> {
+		return this.clientesRepository.getClienteByEmail(email)
 	}
 
 	async updateCliente(id: string, cliente: Cliente.Props): Promise<Cliente> {
-		return this.clientesRepository.updateCliente(id, cliente)
+		const clienteToUpdate = Cliente.create({ ...cliente, id })
+
+		const clienteInDb = await this.getClienteById(id)
+		if (!clienteInDb) {
+			throw new Error("Cliente não registrado")
+		}
+
+		if (cliente.email) {
+			const email = await this.getClienteByEmail(cliente.email)
+			if (email) throw new Error("E-mail already exists")
+		}
+
+		return this.clientesRepository.updateCliente(id, clienteToUpdate)
 	}
 
 	async deleteCliente(id: string): Promise<null> {
