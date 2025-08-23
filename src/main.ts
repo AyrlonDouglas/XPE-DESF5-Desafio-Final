@@ -7,7 +7,8 @@ const app = express()
 app.use(express.json())
 
 app.use(routes)
-
-app.listen(3000, () => {
-	console.log("Server is running on port 3000")
+const port = process.env.PORT
+console.log("DATABASE_URL:", process.env.DATABASE_URL)
+app.listen(port, () => {
+	console.log("Server is running on port " + port)
 })

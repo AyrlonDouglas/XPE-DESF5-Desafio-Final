@@ -8,4 +8,6 @@ const dbCliente = drizzle({
 	logger: true,
 })
 
+;(async () => await dbCliente.execute("SELECT 1"))()
+
 export default dbCliente

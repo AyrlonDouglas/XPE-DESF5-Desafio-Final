@@ -13,7 +13,10 @@
 		"type-check": "tsc --noEmit",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
-		"build": "tsc"
+		"build": "rm -rf dist && tsc && tsc-alias",
+		"compose:up": "docker compose up -d --build --remove-orphans && docker compose logs -f api",
+		"compose:stop": "docker compose stop",
+		"compose:down-v": "docker compose down -v"
 	},
 	"repository": {
 		"type": "git",
@@ -36,6 +39,7 @@
 		"@types/node": "^24.3.0",
 		"@types/pg": "^8.15.5",
 		"drizzle-kit": "^0.31.4",
+		"tsc-alias": "^1.8.16",
 		"tsx": "^4.20.4",
 		"typescript": "^5.9.2"
 	}
