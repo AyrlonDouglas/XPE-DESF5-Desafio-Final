@@ -35,7 +35,10 @@ export class ProdutosRepository {
 		delete produto.props.id
 		const [newProduto] = await db
 			.insert(produtosTable)
-			.values(produto.props)
+			.values({
+				...produto.props,
+				preco: produto.props.preco?.toString(),
+			})
 			.returning()
 		if (!newProduto) throw new Error("Failed to create produto")
 		return this.mapProdutoFromDbToModel(newProduto)
@@ -45,7 +48,10 @@ export class ProdutosRepository {
 		delete produto.props.id
 		const [updatedProduto] = await db
 			.update(produtosTable)
-			.set(produto.props)
+			.set({
+				...produto.props,
+				preco: produto.props.preco?.toString(),
+			})
 			.where(eq(produtosTable.id, parseInt(id)))
 			.returning()
 
@@ -75,7 +81,7 @@ export class ProdutosRepository {
 		return Produto.create({
 			id: produto.id.toString(),
 			nome: produto.nome,
-			preco: produto.preco,
+			preco: Number(produto.preco),
 			createdAt: produto.createdAt,
 			updatedAt: produto.updatedAt,
 		})
