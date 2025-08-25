@@ -1,0 +1,1 @@
+ALTER TABLE "pedidos" ALTER COLUMN "valor" SET DATA TYPE numeric;

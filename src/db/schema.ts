@@ -1,4 +1,4 @@
-import { integer, pgTable, text, timestamp } from "drizzle-orm/pg-core"
+import { integer, pgTable, text, timestamp, numeric } from "drizzle-orm/pg-core"
 
 const baseTable = {
 	id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -17,7 +17,7 @@ export const clientesTable = pgTable("clientes", {
 export const produtosTable = pgTable("produtos", {
 	...baseTable,
 	nome: text().notNull(),
-	preco: integer().notNull(),
+	preco: numeric().notNull(),
 })
 
 export const pedidosTable = pgTable("pedidos", {
@@ -25,7 +25,7 @@ export const pedidosTable = pgTable("pedidos", {
 	clienteId: integer()
 		.references(() => clientesTable.id)
 		.notNull(),
-	valor: integer().notNull(),
+	valor: numeric().notNull(),
 })
 
 export const pedidosProdutosTable = pgTable("pedidos_produtos", {
